@@ -100,6 +100,7 @@ const WhatRarity = ({ selectedRarity, handleRarityClick }) => {
         </button>
       </div>
       <div className='mt-4'>{rarityText}</div>
+      <div className='mt-4'>{selectedRarity}</div>
     </div>
   );
 };
