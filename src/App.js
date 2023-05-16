@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import WhatAction from './WhatAction';
 import WhatRarity from './WhatRarity';
+import rarityData from './rarity.json';
 
 function App() {
   const [rollResult, setRollResult] = useState(null);
@@ -59,9 +60,33 @@ function App() {
         <div className='grid grid-cols-2 gap-4 p-4'>
           <div className='bg-gray-200 p-4 w-300 h-500'>
             <h2 className='text-lg font-bold mb-2'>SLOT REWARD</h2>
-            Base Reward: {calculateReward()} UNITS
-            <br />
-            Extra Reward: Based on Rarity {selectedRarity}
+            {calculateReward() ? (
+              <>
+                Base Reward: {calculateReward()} UNITS
+                <br />
+              </>
+            ) : (
+              <p>Waiting on Roll</p>
+            )}
+            {selectedRarity ? (
+              <>
+                Extra Reward for {selectedRarity}
+                <br />
+                <p>
+                  Die: {rarityData[selectedRarity]?.Die} (divided by 2:{' '}
+                  {Math.floor(rarityData[selectedRarity]?.Die / 2)})
+                </p>
+                <p>
+                  Random Number:{' '}
+                  {Math.floor(
+                    Math.random() *
+                      Math.floor(rarityData[selectedRarity]?.Die / 2)
+                  ) + 1}
+                </p>
+              </>
+            ) : (
+              <p>Waiting on Rarity Selection</p>
+            )}
           </div>
 
           {/* Rest of the components */}
