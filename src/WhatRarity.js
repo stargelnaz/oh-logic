@@ -13,24 +13,31 @@ const buttonStyle = {
 
 const WhatRarity = ({ selectedRarity, handleRarityClick }) => {
   let rarityText = 'Choose a Rarity';
+  let raritySided;
 
   if (selectedRarity === 'COMMON') {
     rarityText = 'Common uses a 4-sided die for bonus calculations';
+    raritySided = 4;
   } else if (selectedRarity === 'UNCOMMON') {
     rarityText = 'Uncommon uses a 6-sided die for bonus calculations';
+    raritySided = 6;
   } else if (selectedRarity === 'RARE') {
     rarityText = 'Rare uses a 8-sided die for bonus calculations';
+    raritySided = 8;
   } else if (selectedRarity === 'EPIC') {
     rarityText = 'Epic uses a 10-sided die for bonus calculations';
+    raritySided = 10;
   } else if (selectedRarity === 'LEGENDARY') {
     rarityText = 'Legendary uses a 12-sided die for bonus calculations';
+    raritySided = 12;
   } else if (selectedRarity === 'GHOST') {
+    raritySided = 20;
     rarityText = 'Ghost uses a 20-sided die for bonus calculations';
   }
 
   return (
     <div className='flex flex-col items-center justify-center bg-white border border-black p-4'>
-      <div className='mb-4 text-3xl'>WHAT RARITY?</div>
+      <div className='text-3xl'>WHAT RARITY?</div>
       <div>
         <button
           style={{
@@ -100,7 +107,6 @@ const WhatRarity = ({ selectedRarity, handleRarityClick }) => {
         </button>
       </div>
       <div className='mt-4'>{rarityText}</div>
-      <div className='mt-4'>{selectedRarity}</div>
     </div>
   );
 };

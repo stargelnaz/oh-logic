@@ -1,4 +1,3 @@
-// WhatAction.js
 import React from 'react';
 
 const buttonStyle = {
@@ -13,18 +12,22 @@ const buttonStyle = {
 
 const WhatAction = ({ selectedAction, handleActionClick }) => {
   let actionText = 'Choose an Action';
+  let resourceType = '';
 
   if (selectedAction === 'HUNT') {
     actionText = 'HUNT uses a CLAN MEMBER (FOOD)';
+    resourceType = 'FOOD';
   } else if (selectedAction === 'GATHER') {
     actionText = 'GATHER uses a CLAN BEAST (PETAL)';
-  } else if (selectedAction === 'HUNT_GATHER') {
-    actionText = 'HUNT & GATHER uses a VEHICLE (ALL)';
+    resourceType = 'PETAL';
+  } else if (selectedAction === 'EXPEDITION') {
+    actionText = 'EXPEDITION uses a VEHICLE (BOTH)';
+    resourceType = 'BOTH';
   }
-
+  console.log(resourceType);
   return (
     <div className='flex flex-col items-center justify-center bg-white border border-black p-4'>
-      <div className='mb-4 text-3xl'>WHAT ACTION?</div>
+      <div className='text-3xl'>WHAT ACTION?</div>
       <div>
         <button
           style={{
@@ -52,16 +55,16 @@ const WhatAction = ({ selectedAction, handleActionClick }) => {
           style={{
             ...buttonStyle,
             backgroundColor:
-              selectedAction === 'HUNT_GATHER'
+              selectedAction === 'EXPEDITION'
                 ? 'green'
                 : buttonStyle.backgroundColor
           }}
-          onClick={() => handleActionClick('HUNT_GATHER')}
+          onClick={() => handleActionClick('EXPEDITION')}
         >
-          HUNT & GATHER
+          EXPEDITION
         </button>
       </div>
-      <div className='mt-4'>{actionText}</div>
+      <div className='mt-4'>{actionText.replace('FOOD', resourceType)}</div>
     </div>
   );
 };
