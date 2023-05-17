@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import WhatAction from './WhatAction';
 import WhatRarity from './WhatRarity';
+import CalculateTeamBonus from './CalculateTeamBonus';
 import rarityData from './rarity.json';
 
 function App() {
@@ -31,7 +32,10 @@ function App() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen'>
+    <div
+      className='flex flex-col items-center justify-center min-h-screen bg-black 
+    border border-black'
+    >
       <div>
         <WhatAction
           selectedAction={selectedAction}
@@ -45,16 +49,20 @@ function App() {
           handleRarityClick={handleRarityClick}
         />
       </div>
+      <div>
+        <CalculateTeamBonus />
+      </div>
 
-      <h1 className='text-4xl mb-4 p-4'>PAYOUT</h1>
-      <button
-        className='px-4 py-2 bg-blue-500 text-white rounded-md mb-4'
-        onClick={rollDice}
-      >
-        Roll the Dice
-      </button>
-      {rollResult && <p className='text-2xl'>Result: {rollResult}</p>}
-
+      <div className='flex flex-col items-center justify-center p-b m-4 bg-white border border-black p-4'>
+        <h1 className='text-4xl bg-white'>PAYOUT</h1>
+        <button
+          className='px-4 py-2 bg-blue-500 text-white rounded-md mb-4'
+          onClick={rollDice}
+        >
+          Roll the Dice
+        </button>
+        {rollResult && <p className='text-2xl'>Result: {rollResult}</p>}
+      </div>
       {/* Boxes */}
       <div>
         <div className='grid grid-cols-2 gap-4 p-4'>
@@ -88,7 +96,23 @@ function App() {
               <p>Waiting on Rarity Selection</p>
             )}
           </div>
-
+          <div className='bg-gray-200 p-4 w-300 h-500'>
+            <h2 className='text-lg font-bold mb-2'>BONUS REWARD</h2>
+          </div>
+          <div className='bg-gray-200 p-4 w-300 h-500'>
+            <h2 className='text-lg font-bold mb-2'>BONUS REWARD</h2>
+            <p>5% Chance</p>
+            <div>
+              {rollResult === null || rollResult < 95 ? (
+                <p>No ticket: Needed a 95 or higher</p>
+              ) : (
+                <p>Won a Hunt Ticket with a {rollResult}</p>
+              )}
+            </div>
+          </div>
+          <div className='bg-gray-200 p-4 w-300 h-500'>
+            <h2 className='text-lg font-bold mb-2'>SWAPPLING ORCHID</h2>
+          </div>
           {/* Rest of the components */}
         </div>
       </div>

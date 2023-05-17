@@ -23,7 +23,7 @@ const WhatAction = ({ selectedAction, handleActionClick }) => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center border border-black p-4'>
+    <div className='flex flex-col items-center justify-center bg-white border border-black p-4'>
       <div className='mb-4 text-3xl'>WHAT ACTION?</div>
       <div>
         <button
