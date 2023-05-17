@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import teamData from './team.json';
-
+import CalculateResult from './CalculateResult';
 const App = () => {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedRarity, setSelectedRarity] = useState(null);
+  const [selectedSided, setSelectedSided] = useState(null);
   const [selectedSubcategories, setSelectedSubcategories] = useState({});
   const [bonusTotal, setBonusTotal] = useState(0);
   const [randomNumber, setRandomNumber] = useState(null);
@@ -18,7 +19,11 @@ const App = () => {
   };
 
   const handleRarityClick = (rarity) => {
+    const selectedDice = teamData.dice.find(
+      (diceItem) => diceItem.rarity === rarity
+    );
     setSelectedRarity(rarity);
+    setSelectedSided(selectedDice.sided);
   };
 
   const handleSubcategoryClick = (category, subcategoryValue) => {
@@ -27,7 +32,7 @@ const App = () => {
       [category]: subcategoryValue
     }));
 
-    calculateTotalBonus(); // Update the total bonus
+    calculateTotalBonus(); //
   };
 
   const calculateTotalBonus = () => {
@@ -216,8 +221,33 @@ const App = () => {
       </div>
 
       <div className='w-1/2 bg-gray-200'>
-        <div>Selected Action: {selectedAction}</div>
-        <div>Selected Rarity: {selectedRarity}</div>
+        <div className='flex flex-col m-5 p-6 border border-blue-500'>
+          <div>Selected Action Resource: {selectedAction}</div>
+          <div>Selected Rarity: {selectedRarity}</div>
+          <div>Selected Sided: {selectedSided}</div>
+          <div>Total Bonus: {bonusTotal}</div>
+          <div>Main Dice Roll (n/100): {randomNumber}</div>
+        </div>
+
+        <div className='flex flex-col m-5 p-6 border border-white bg-blue-300'>
+          <div className='font-bold text-2xl'>Slot Result</div>
+          <p>
+            <span className='font-bold text-gray-600'>
+              Factors: Main Dice Roll, Selected Sided, Selected Resource
+            </span>
+          </p>
+          <p>
+            <span className='font-bold'>HOW IS IT CALCULATED?</span> A bell
+            curve based on the main dice roll will choose a value between 0.5
+            and the selectedSided value divided in half.
+          </p>
+          <div>
+            <CalculateResult
+              randomNumber={randomNumber}
+              selectedSided={selectedSided}
+            />
+          </div>
+        </div>
         <div>
           SLOT RESULTS:
           <p className='italic'>
@@ -236,8 +266,55 @@ const App = () => {
           that occassionally while looking for FOOD a GUIDE may find PETAL.
           However, the BONUS RESULTS can be improved based on the TEAM BONUSES
         </p>
-        <div>SWAPPLING RESULTS: An independent roll</div>
-        <div>TICKET RESULTS: An unmodified 5% chance</div>
+        {/* --------------------------------------------------------------------------------SWAPLING RESULT */}
+        <div className='flex flex-col m-5 p-6 border border-white bg-blue-300'>
+          <div className='font-bold text-2xl'>Swapling Orchid Result</div>
+          <p>
+            <span className='font-bold text-gray-600'>
+              Factors: Orchid Dice Roll, Selected Sided, Team Bonus
+            </span>
+          </p>
+          <p>
+            <span className='font-bold'>HOW IS IT CALCULATED?</span> Orchid Roll
+            &le; selectedSided * bonusTotal
+          </p>
+          <div>
+            {randomNumber === null ||
+            randomNumber === 0 ||
+            randomNumber === undefined ? (
+              <div>TICKET RESULT: Waiting on Main Dice Roll...</div>
+            ) : randomNumber > 95 ? (
+              <div>TICKET RESULT: WINNER!</div>
+            ) : (
+              <div>TICKET RESULT: Nope</div>
+            )}
+          </div>
+        </div>
+
+        {/* --------------------------------------------------------------------------------TICKET RESULT */}
+        <div className='flex flex-col m-5 p-6 border border-white bg-blue-300'>
+          <div className='font-bold text-2xl'>Hunt Ticket Result</div>
+          <p>
+            <span className='font-bold text-gray-600'>
+              Factors: Main Dice Roll
+            </span>
+          </p>
+          <p>
+            <span className='font-bold'>HOW IS IT CALCULATED?</span> If the roll
+            is > 95
+          </p>
+          <div>
+            {randomNumber === null ||
+            randomNumber === 0 ||
+            randomNumber === undefined ? (
+              <div>TICKET RESULT: Waiting on Main Dice Roll...</div>
+            ) : randomNumber > 95 ? (
+              <div>TICKET RESULT: WINNER!</div>
+            ) : (
+              <div>TICKET RESULT: Nope</div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
