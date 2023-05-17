@@ -1,0 +1,40 @@
+{
+  "action": [
+    { "nftType": "GUIDE", "actionType": "GATHER", "resourceType": "FOOD" },
+    { "nftType": "BEAST", "actionType": "HUNT", "resourceType": "PETAL" },
+    {
+      "nftType": "VEHICLE",
+      "actionType": "EXPEDITION",
+      "resourceType": "FOOD and PETAL"
+    }
+  ],
+  "dice": [
+    { "rarity": "COMMON", "sided": 4 },
+    { "rarity": "UNCOMMON", "sided": 6 },
+    { "rarity": "RARE", "sided": 8 },
+    { "rarity": "EPIC", "sided": 10 },
+    { "rarity": "LEGENDARY", "sided": 12 },
+    { "rarity": "GHOST", "sided": 20 }
+  ],
+  "bonus": {
+    "terrain": [
+      { "label": "Matching Land +20", "value": 20 },
+      { "label": "Affiliated Land +10", "value": 10 },
+      { "label": "Awkward Land -25", "value": -25 },
+      { "label": "Rival Land -50", "value": -50 }
+    ],
+    "partner": [
+      { "label": "Matching Partner +10", "value": 10 },
+      { "label": "Affiliated Partner +5", "value": 5 },
+      { "label": "Awkward Partner -10", "value": -10 },
+      { "label": "Rival Partner -25", "value": -25 }
+    ],
+    "vehicle": [
+      { "label": "Matching Vehicle +10", "value": 10 },
+      { "label": "Affiliated Vehicle +5", "value": 5 },
+      { "label": "Awkward Vehicle -10", "value": -10 },
+      { "label": "Rival Vehicle -25", "value": -25 }
+    ],
+    "coordination": [{ "label": "All Matching Team +10", "value": 10 }]
+  }
+}
