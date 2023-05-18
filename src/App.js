@@ -39,18 +39,20 @@ const App = () => {
   };
 
   const handleSubcategoryClick = (category, subcategoryValue) => {
-    setSelectedSubcategories((prevSelectedSubcategories) => ({
-      ...prevSelectedSubcategories,
-      [category]: subcategoryValue
-    }));
-
-    calculateTotalBonus(); //
+    setSelectedSubcategories((prevSelectedSubcategories) => {
+      const updatedSubcategories = {
+        ...prevSelectedSubcategories,
+        [category]: subcategoryValue
+      };
+      calculateTotalBonus(updatedSubcategories);
+      return updatedSubcategories;
+    });
   };
 
-  const calculateTotalBonus = () => {
+  const calculateTotalBonus = (updatedSubcategories) => {
     let total = 0;
 
-    Object.values(selectedSubcategories).forEach((subcategoryValue) => {
+    Object.values(updatedSubcategories).forEach((subcategoryValue) => {
       total += subcategoryValue;
     });
 
@@ -61,8 +63,8 @@ const App = () => {
   const orchidWinner = Math.ceil(diePower + (diePower * bonusTotal) / 100);
 
   const slotReward = (
-    (randomNumber / 100) * diePower +
-    diePower * (bonusTotal / 100)
+    (diePower * randomNumber) / 100 +
+    (diePower * bonusTotal) / 100
   ).toFixed(2);
 
   return (
@@ -126,12 +128,15 @@ const App = () => {
                       teamData.dice.find(
                         (diceItem) => diceItem.rarity === selectedRarity
                       ).sided
-                    }-sided die`
-                  : 'Choose a Rarity for more information'}
+                    }-sided dice`
+                  : 'Choose a Rarity for more information'}{' '}
+                | "Die Power" is a roll of that die divided in half
               </p>
             </div>
             <div className='py-4'>
-              <h2 className='text-2xl font-bold'>WHAT BONUS?</h2>
+              <h2 id='what-bonus' className='text-2xl font-bold'>
+                WHAT BONUS?
+              </h2>
               <div className='grid gap-4 grid-cols-1'>
                 <div>
                   <h3>Terrain</h3>
@@ -217,7 +222,7 @@ const App = () => {
                   </button>
                 </div>
               </div>
-              <p className='mt-4 text-lg'>Total bonus is {bonusTotal}</p>
+              <p className='mt-4 text-lg'>Total bonus is {bonusTotal}%</p>
             </div>
 
             <div className='flex flex-row'>
@@ -254,11 +259,9 @@ const App = () => {
               <div className='py-4 w-6/12'>
                 <h2 className='text-2xl '>ORCHID ROLL</h2>
                 <div className='flex flex-col items-center'>
-                  {orchidRandomNumber !== null && (
-                    <div className='mt-4 text-3xl font-bold text-white'>
-                      &nbsp;{orchidRandomNumber}&nbsp;
-                    </div>
-                  )}
+                  <div className='mt-4 text-3xl font-bold text-white'>
+                    &nbsp;{orchidRandomNumber}&nbsp;
+                  </div>
                 </div>
               </div>
             </div>
@@ -266,7 +269,7 @@ const App = () => {
         </div>
       </div>
 
-      <div id='right-side' className='w-1/2 flex flex-col bg-gray-200'>
+      <div id='right-side' className='w-2/3 flex flex-col bg-gray-200'>
         {/* --------------------------------------------------------------------------------SLOT RESULT */}{' '}
         <div
           id='explanations'
@@ -319,7 +322,7 @@ const App = () => {
                 </table>
               </div>
             </div>
-            <div>
+            <div className='bg-orange-500'>
               Slot Reward: {slotReward} {selectedAction}
             </div>
           </div>
@@ -341,14 +344,14 @@ const App = () => {
             </div>
           </div>
           <div className='flex flex-col m-2 p-2 bg-green-300'>
-            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
             <div>
               <div>
                 {/* <table className='mx-auto border border-collapse'> */}
                 <table>
                   <tr>
                     <th className='border border-gray-400 p-2 text-center'>
-                      Main Roll &ge;75?
+                      Is Main Roll &gt;75?
                     </th>
                     <th className='border border-gray-400 p-2 text-center'>
                       BONUS ROLL
@@ -373,7 +376,6 @@ const App = () => {
                         : randomNumber >= 75
                         ? 'YES'
                         : 'NO'}{' '}
-                      ~ {randomNumber}
                     </td>
 
                     <td className='border border-gray-400 p-2 text-center'>
@@ -392,14 +394,24 @@ const App = () => {
                 </table>
               </div>
             </div>
-            <div>
+            <div
+              className={`${
+                randomNumber === 0 ||
+                randomNumber === null ||
+                randomNumber === undefined
+                  ? ''
+                  : randomNumber < 75
+                  ? ''
+                  : 'bg-orange-500'
+              }`}
+            >
               {randomNumber === 0 ||
               randomNumber === null ||
               randomNumber === undefined
-                ? 'Waiting on input...'
+                ? 'Waiting for input...'
                 : randomNumber < 75
-                ? 'No Reward'
-                : `Slot Reward: ${slotReward} ${selectedAction}`}
+                ? 'Nope'
+                : `Bonus Reward: ${slotReward} ${selectedAction}`}
             </div>
           </div>
         </div>
@@ -413,18 +425,17 @@ const App = () => {
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
             </div>
             <div>
-              <p>
-                • The ORCHID ROLL is generated independently of any other rolls.
-              </p>
-              <p>
-                • The threshold to win is the Die Power x Team Bonus (not a
-                roll)
-              </p>
-              <p>• If the ORCHID ROLL &le; threshold then WINNER!</p>
+              <div>
+                The ORCHID ROLL is generated independently of any other roll.
+              </div>
+              <div>
+                The gamer's chances are based soley on rarity (0.5% common - 5.0
+                % ghost)
+              </div>
             </div>
           </div>
           <div className='flex flex-col m-2 p-2 bg-green-400'>
-            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
             <div>
               <div>
                 {/* <table className='mx-auto border border-collapse'> */}
@@ -433,14 +444,9 @@ const App = () => {
                     <th className='border border-gray-400 p-2 text-center'>
                       Orchid Roll
                     </th>
+                    <th>&lt;</th>
                     <th className='border border-gray-400 p-2 text-center'>
                       Rarity Die &divide; 2
-                    </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Team Bonus
-                    </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Threshold
                     </th>
                   </tr>
                   <tr>
@@ -451,56 +457,68 @@ const App = () => {
                         ? 'Waiting'
                         : orchidRandomNumber}
                     </td>
-
+                    <td></td>
                     <td className='border border-gray-400 p-2 text-center'>
                       {selectedSided === null ||
                       selectedSided === 0 ||
                       selectedSided === undefined
                         ? 'Waiting'
-                        : selectedSided / 2}
-                    </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {bonusTotal === null ||
-                      bonusTotal === 0 ||
-                      bonusTotal === undefined
-                        ? 'Waiting'
-                        : bonusTotal + '%'}
-                    </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {(selectedSided * bonusTotal) / 100}%
+                        : diePower}
                     </td>
                   </tr>
                 </table>
               </div>
             </div>
             <div>
-              {randomNumber === 0 ||
-              randomNumber === null ||
-              randomNumber === undefined
-                ? 'Waiting on input...'
-                : randomNumber < 75
-                ? 'No Reward'
-                : `Slot Reward: ${slotReward} ${selectedAction}`}
+              {diePower > orchidRandomNumber ? (
+                <div className='bg-orange-500 text-center'>WINNER!</div>
+              ) : (
+                <div>Nope!</div>
+              )}
             </div>
           </div>
-        </div>
-        {/* --------------------------------------------------------------------------------TICKET RESULT */}
+        </div>{' '}
+        {/* --------------------------------------------------------------------------------TICKET RESULT */}{' '}
         <div className='flex flex-row border border-white bg-green-500'>
           <div className='flex flex-col w-1/2 m-2 p-2 bg-green-500'>
             <div className='flex flex-col font-bold text-2xl'>
               Hunt Ticket Result
             </div>
-            <div className='font-bold'>HOW IS IT CALCULATED?</div>
-            <p>If the MAIN ROLL is > 95</p>
             <div>
-              {randomNumber === null ||
-              randomNumber === 0 ||
-              randomNumber === undefined ? (
-                <div>TICKET RESULT: Waiting on Main Roll...</div>
-              ) : randomNumber > 95 ? (
-                <div className='bg-yellow-500'>TICKET RESULT: WINNER!</div>
+              <span className='font-bold'>HOW IS IT CALCULATED?</span>
+            </div>
+            <div>
+              <div>Success if the MAIN ROLL is greater than 95</div>
+            </div>
+          </div>
+          <div className='flex flex-col m-2 p-2 bg-green-500'>
+            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
+            <div>
+              <div>
+                {/* <table className='mx-auto border border-collapse'> */}
+                <table>
+                  <tr>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Main Roll > 95?
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {randomNumber === null ||
+                      randomNumber === 0 ||
+                      randomNumber === undefined
+                        ? 'Waiting'
+                        : randomNumber}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              {randomNumber > 95 ? (
+                <div className='bg-orange-500 text-center'>WINNER!</div>
               ) : (
-                <div className='bg-orange-500'>TICKET RESULT: Nope</div>
+                <div>Nope!</div>
               )}
             </div>
           </div>
