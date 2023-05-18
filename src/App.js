@@ -4,6 +4,9 @@ import CalculateResult from './CalculateResult';
 
 const App = () => {
   const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedBonusResourceAction, setSelectedBonusResourceAction] =
+    useState(null);
+
   const [selectedRarity, setSelectedRarity] = useState(null);
   const [selectedSided, setSelectedSided] = useState(null);
   const [selectedSubcategories, setSelectedSubcategories] = useState({});
@@ -36,6 +39,11 @@ const App = () => {
 
   const handleActionClick = (resourceType) => {
     setSelectedAction(resourceType);
+
+    const selectedActionItem = teamData.action.find(
+      (actionItem) => actionItem.resourceType === resourceType
+    );
+    setSelectedBonusResourceAction(selectedActionItem.bonusResourceType);
   };
 
   const handleSubcategoryClick = (category, subcategoryValue) => {
@@ -63,13 +71,16 @@ const App = () => {
   const orchidWinner = Math.ceil(diePower + (diePower * bonusTotal) / 100);
 
   const slotReward = (
-    (diePower * randomNumber) / 100 +
-    (diePower * bonusTotal) / 100
+    (resourceRandomNumber * randomNumber) / 100 +
+    (resourceRandomNumber * bonusTotal) / 100
   ).toFixed(2);
 
   return (
     <div className='flex'>
       <div className='w-1/2 bg-gray-800'>
+        <div className='text-white'>
+          https://github.com/stargelnaz/oh-logic.git
+        </div>
         <div className='flex flex-col justify-center h-screen'>
           <div className='text-white text-center'>
             <div className='py-4'>
@@ -268,7 +279,6 @@ const App = () => {
           </div>
         </div>
       </div>
-
       <div id='right-side' className='w-2/3 flex flex-col bg-gray-200'>
         {/* --------------------------------------------------------------------------------SLOT RESULT */}{' '}
         <div
@@ -322,9 +332,7 @@ const App = () => {
                 </table>
               </div>
             </div>
-            <div className='bg-orange-500'>
-              Slot Reward: {slotReward} {selectedAction}
-            </div>
+            <div className='bg-orange-500'>Slot Reward: {slotReward} UNITS</div>
           </div>
         </div>{' '}
         {/* --------------------------------------------------------------------------------BONUS RESULT */}{' '}
@@ -337,7 +345,7 @@ const App = () => {
             <div>
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
             </div>
-            <div>If MAIN ROLL &ge; 75 then WINNER!</div>
+            <div>If MAIN ROLL &gt; 75 then WINNER!</div>
             <div>
               {' '}
               (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
@@ -388,7 +396,7 @@ const App = () => {
                       {bonusTotal}%
                     </td>
                     <td className='border border-gray-400 p-2 text-center'>
-                      {selectedAction}
+                      {selectedBonusResourceAction}
                     </td>
                   </tr>
                 </table>
@@ -411,7 +419,7 @@ const App = () => {
                 ? 'Waiting for input...'
                 : randomNumber < 75
                 ? 'Nope'
-                : `Bonus Reward: ${slotReward} ${selectedAction}`}
+                : `Bonus Reward: ${slotReward} UNITS`}
             </div>
           </div>
         </div>

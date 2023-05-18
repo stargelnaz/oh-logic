@@ -1,11 +1,22 @@
 {
   "action": [
-    { "nftType": "GUIDE", "actionType": "GATHER", "resourceType": "FOOD" },
-    { "nftType": "BEAST", "actionType": "HUNT", "resourceType": "PETAL" },
+    {
+      "nftType": "GUIDE",
+      "actionType": "GATHER",
+      "bonusResourceType": "PETAL",
+      "resourceType": "FOOD"
+    },
+    {
+      "nftType": "BEAST",
+      "actionType": "HUNT",
+      "bonusResourceType": "FOOD",
+      "resourceType": "PETAL"
+    },
     {
       "nftType": "VEHICLE",
       "actionType": "EXPEDITION",
-      "resourceType": "FOOD and PETAL"
+      "bonusResourceType": "PETAL & FOOD",
+      "resourceType": "FOOD & PETAL"
     }
   ],
   "dice": [
