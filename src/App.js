@@ -221,7 +221,7 @@ const App = () => {
             </div>
 
             <div className='flex flex-row'>
-              {/* MAIN DICE ROLL */}
+              {/* MAIN ROLL */}
               <button
                 className='py-2 px-4 bg-blue-500 text-white rounded'
                 onClick={handleRollClick}
@@ -229,7 +229,7 @@ const App = () => {
                 ROLL IT!
               </button>
               <div className='py-4 w-6/12'>
-                <h2 className='text-2xl font-bold'>MAIN DICE ROLL</h2>
+                <h2 className='text-2xl font-bold'>MAIN ROLL</h2>
                 <div className='flex flex-col items-center'>
                   {randomNumber !== null && (
                     <div className='mt-4 text-3xl font-bold text-white'>
@@ -239,20 +239,20 @@ const App = () => {
                 </div>
               </div>
 
-              {/* BONUS DICE ROLL */}
+              {/* BONUS ROLL */}
               <div className='py-4 w-6/12'>
-                <h2 className='text-2xl '>BONUS DICE ROLL</h2>
+                <h2 className='text-2xl '>BONUS ROLL</h2>
                 <div className='flex flex-col items-center'>
                   {bonusRandomNumber !== null && (
-                    <div className='mt-4 text-3xl font-bold text-gray-500'>
+                    <div className='mt-4 text-3xl font-bold'>
                       &nbsp;{bonusRandomNumber}&nbsp;
                     </div>
                   )}
                 </div>
               </div>
-              {/* ORCHID DICE ROLL */}
+              {/* ORCHID ROLL */}
               <div className='py-4 w-6/12'>
-                <h2 className='text-2xl '>ORCHID DICE ROLL</h2>
+                <h2 className='text-2xl '>ORCHID ROLL</h2>
                 <div className='flex flex-col items-center'>
                   {orchidRandomNumber !== null && (
                     <div className='mt-4 text-3xl font-bold text-white'>
@@ -266,149 +266,243 @@ const App = () => {
         </div>
       </div>
 
-      <div className='w-1/2 bg-gray-200'>
+      <div id='right-side' className='w-1/2 flex flex-col bg-gray-200'>
         {/* --------------------------------------------------------------------------------SLOT RESULT */}{' '}
-        <div className='flex flex-col m-5 p-6 border border-white bg-green-200'>
-          <div className='font-bold text-2xl'>Slot Result</div>
-          <p>
-            <span className='font-bold text-gray-600'>
-              Factors: Main Dice Roll, Selected Sided, Selected Resource
-            </span>
-          </p>
-          <p>
-            <span className='font-bold'>HOW IS IT CALCULATED?</span>Guaranteed
-            amount resources. Rarity die is multiplied by
-          </p>
-          <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
-          <div>
+        <div
+          id='explanations'
+          className='flex flex-row border border-white bg-green-200'
+        >
+          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-200'>
+            <div className='flex flex-col font-bold text-2xl'>Slot Result</div>
             <div>
-              {/* <table className='mx-auto border border-collapse'> */}
-              <table>
-                <tr>
-                  <th className='border border-gray-400 p-2 text-center'>
-                    Main Roll
-                  </th>
-                  <th className='border border-gray-400 p-2 text-center'>
-                    {selectedSided}-sided Roll
-                  </th>
-                  <th className='border border-gray-400 p-2 text-center'>
-                    Team Bonus
-                  </th>
-                </tr>
-                <tr>
-                  <td className='border border-gray-400 p-2 text-center'>
-                    {randomNumber}%
-                  </td>
-                  <td className='border border-gray-400 p-2 text-center'>
-                    {resourceRandomNumber}
-                  </td>
-                  <td className='border border-gray-400 p-2 text-center'>
-                    {bonusTotal}%
-                  </td>
-                </tr>
-              </table>
+              <span className='font-bold'>HOW IS IT CALCULATED?</span>
+            </div>
+            <div>
+              (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
             </div>
           </div>
-          <div>Slot Reward: {slotReward}</div>
-        </div>
-        {/* --------------------------------------------------------------------------------BONUS RESULT */}
-        <div className='flex flex-col m-5 p-6 border border-white bg-green-300'>
-          <div className='font-bold text-2xl'>Bonus Resource Result</div>
-          <p>
-            <span className='font-bold text-gray-600'>
-              Factors: Main Dice Roll, Bonus Dice Roll
-            </span>
-          </p>
-          <p>
-            <span className='font-bold'>HOW IS IT CALCULATED?</span> If the MAIN
-            DICE ROLL is greater than 75% then a BONUS ROLL will determine the
-            resources won
-          </p>
-
-          <div>
-            {randomNumber === null ||
-            randomNumber === 0 ||
-            randomNumber === undefined ? (
-              <div>BONUS RESULT: Waiting on Dice Roll...</div>
-            ) : randomNumber > 75 ? (
+          <div className='flex flex-col m-2 p-2 bg-green-200'>
+            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+            <div>
               <div>
-                <div className='bg-yellow-500'>BONUS RESULT: WINNER!</div>
-                <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+                {/* <table className='mx-auto border border-collapse'> */}
+                <table>
+                  <tr>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Main Roll
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Die Power
+                      <br /> d{selectedSided} &divide; 2
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Team Bonus
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Resource
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {randomNumber}%
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {resourceRandomNumber}
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {bonusTotal}%
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {selectedAction}
+                    </td>
+                  </tr>
+                </table>
               </div>
-            ) : (
-              <div className='bg-red-500'>BONUS RESULT: Nope</div>
-            )}
+            </div>
+            <div>
+              Slot Reward: {slotReward} {selectedAction}
+            </div>
+          </div>
+        </div>{' '}
+        {/* --------------------------------------------------------------------------------BONUS RESULT */}{' '}
+        <div
+          id='explanations'
+          className='flex flex-row border border-white bg-green-300'
+        >
+          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-300'>
+            <div className='flex flex-col font-bold text-2xl'>Bonus Result</div>
+            <div>
+              <span className='font-bold'>HOW IS IT CALCULATED?</span>
+            </div>
+            <div>If MAIN ROLL &ge; 75 then WINNER!</div>
+            <div>
+              {' '}
+              (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
+            </div>
+          </div>
+          <div className='flex flex-col m-2 p-2 bg-green-300'>
+            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+            <div>
+              <div>
+                {/* <table className='mx-auto border border-collapse'> */}
+                <table>
+                  <tr>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Main Roll &ge;75?
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      BONUS ROLL
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Die Power
+                      <br /> d{selectedSided} &divide; 2
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Team Bonus
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Resource
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {randomNumber === null ||
+                      randomNumber === 0 ||
+                      randomNumber === undefined
+                        ? 'Waiting'
+                        : randomNumber >= 75
+                        ? 'YES'
+                        : 'NO'}{' '}
+                      ~ {randomNumber}
+                    </td>
+
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {bonusRandomNumber}%
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {resourceRandomNumber}
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {bonusTotal}%
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {selectedAction}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              {randomNumber === 0 ||
+              randomNumber === null ||
+              randomNumber === undefined
+                ? 'Waiting on input...'
+                : randomNumber < 75
+                ? 'No Reward'
+                : `Slot Reward: ${slotReward} ${selectedAction}`}
+            </div>
           </div>
         </div>
-        {/* --------------------------------------------------------------------------------SWAPLING RESULT */}
-        <div className='flex flex-col m-5 p-6 border border-white bg-green-400'>
-          <div className='font-bold text-2xl'>Swapling Orchid Result</div>
-          <p>
-            <span className='font-bold text-gray-600'>
-              Factors: Orchid Die Roll, Die Power, Team Bonus
-            </span>
-          </p>
-          <p>
-            <span className='font-bold'>HOW IS SUCCESS CALCULATED?</span>A new
-            roll orchidRoll is generated. Success if the Orchid Die Roll &le;
-            diePower (1/2 of Rarity Die) + teamPower (diePower * bonusPower)
-          </p>
-          <p>
-            {selectedRarity === null || selectedRarity === undefined ? (
-              <div>Waiting on rarity selection...</div>
-            ) : (
-              <div>Die power is {diePower}</div>
-            )}
-
-            <div
-              className={`${
-                bonusTotal < 0
-                  ? 'bg-red-500 text-white'
-                  : 'bg-transparent text-black'
-              }`}
-            >
-              Team power is {bonusTotal}%
+        {/* --------------------------------------------------------------------------------SWAPLING RESULT */}{' '}
+        <div className='flex flex-row border border-white bg-green-400'>
+          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-400'>
+            <div className='flex flex-col font-bold text-2xl'>
+              Swapling Orchid Result
             </div>
+            <div>
+              <span className='font-bold'>HOW IS IT CALCULATED?</span>
+            </div>
+            <div>
+              <p>
+                • The ORCHID ROLL is generated independently of any other rolls.
+              </p>
+              <p>
+                • The threshold to win is the Die Power x Team Bonus (not a
+                roll)
+              </p>
+              <p>• If the ORCHID ROLL &le; threshold then WINNER!</p>
+            </div>
+          </div>
+          <div className='flex flex-col m-2 p-2 bg-green-400'>
+            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+            <div>
+              <div>
+                {/* <table className='mx-auto border border-collapse'> */}
+                <table>
+                  <tr>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Orchid Roll
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Rarity Die &divide; 2
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Team Bonus
+                    </th>
+                    <th className='border border-gray-400 p-2 text-center'>
+                      Threshold
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {randomNumber === null ||
+                      randomNumber === 0 ||
+                      randomNumber === undefined
+                        ? 'Waiting'
+                        : orchidRandomNumber}
+                    </td>
 
-            <div>orchidWinner is {orchidWinner}</div>
-            <div>orchidRandomNumber is {orchidRandomNumber}</div>
-          </p>
-
-          <div>
-            {orchidWinner === null ||
-            orchidWinner === 0 ||
-            orchidWinner === undefined ? (
-              <div>TICKET RESULT: Waiting on Dice Roll</div>
-            ) : orchidRandomNumber <= orchidWinner ? (
-              <div className='bg-yellow-500'>TICKET RESULT: WINNER!</div>
-            ) : (
-              <div className='bg-red-500'>TICKET RESULT: Nope</div>
-            )}
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {selectedSided === null ||
+                      selectedSided === 0 ||
+                      selectedSided === undefined
+                        ? 'Waiting'
+                        : selectedSided / 2}
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {bonusTotal === null ||
+                      bonusTotal === 0 ||
+                      bonusTotal === undefined
+                        ? 'Waiting'
+                        : bonusTotal + '%'}
+                    </td>
+                    <td className='border border-gray-400 p-2 text-center'>
+                      {(selectedSided * bonusTotal) / 100}%
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              {randomNumber === 0 ||
+              randomNumber === null ||
+              randomNumber === undefined
+                ? 'Waiting on input...'
+                : randomNumber < 75
+                ? 'No Reward'
+                : `Slot Reward: ${slotReward} ${selectedAction}`}
+            </div>
           </div>
         </div>
         {/* --------------------------------------------------------------------------------TICKET RESULT */}
-        <div className='flex flex-col m-5 p-6 border border-white bg-green-500'>
-          <div className='font-bold text-2xl'>Hunt Ticket Result</div>
-          <p>
-            <span className='font-bold text-gray-600'>
-              Factors: Main Dice Roll
-            </span>
-          </p>
-          <p>
-            <span className='font-bold'>HOW IS IT CALCULATED?</span> If the MAIN
-            DICE ROLL is > 95
-          </p>
-
-          <div>
-            {randomNumber === null ||
-            randomNumber === 0 ||
-            randomNumber === undefined ? (
-              <div>TICKET RESULT: Waiting on Main Dice Roll...</div>
-            ) : randomNumber > 95 ? (
-              <div className='bg-yellow-500'>TICKET RESULT: WINNER!</div>
-            ) : (
-              <div className='bg-red-500'>TICKET RESULT: Nope</div>
-            )}
+        <div className='flex flex-row border border-white bg-green-500'>
+          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-500'>
+            <div className='flex flex-col font-bold text-2xl'>
+              Hunt Ticket Result
+            </div>
+            <div className='font-bold'>HOW IS IT CALCULATED?</div>
+            <p>If the MAIN ROLL is > 95</p>
+            <div>
+              {randomNumber === null ||
+              randomNumber === 0 ||
+              randomNumber === undefined ? (
+                <div>TICKET RESULT: Waiting on Main Roll...</div>
+              ) : randomNumber > 95 ? (
+                <div className='bg-yellow-500'>TICKET RESULT: WINNER!</div>
+              ) : (
+                <div className='bg-orange-500'>TICKET RESULT: Nope</div>
+              )}
+            </div>
           </div>
         </div>
         {/* --------------------------------------------------------------------------------VARIABLES */}{' '}
