@@ -16,7 +16,7 @@
       "nftType": "VEHICLE",
       "actionType": "EXPEDITION",
       "bonusResourceType": "PETAL & FOOD",
-      "resourceType": "FOOD & PETAL"
+      "resourceType": "FUEL"
     }
   ],
   "dice": [

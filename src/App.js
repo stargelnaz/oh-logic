@@ -6,7 +6,6 @@ const App = () => {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedBonusResourceAction, setSelectedBonusResourceAction] =
     useState(null);
-
   const [selectedRarity, setSelectedRarity] = useState(null);
   const [selectedSided, setSelectedSided] = useState(null);
   const [selectedSubcategories, setSelectedSubcategories] = useState({});
@@ -14,7 +13,7 @@ const App = () => {
   const [randomNumber, setRandomNumber] = useState(null);
   const [orchidRandomNumber, setOrchidRandomNumber] = useState(null);
   const [bonusRandomNumber, setBonusRandomNumber] = useState(null);
-  const [resourceRandomNumber, setResourceRandomNumber] = useState(null);
+  const [rarityDieRoll, setRarityDieRoll] = useState(null);
 
   const handleRarityClick = (rarity) => {
     const selectedDice = teamData.dice.find(
@@ -33,8 +32,8 @@ const App = () => {
     const bonusRandomNumber = Math.floor(Math.random() * 100) + 1;
     setBonusRandomNumber(bonusRandomNumber);
 
-    const resourceRandom = Math.floor((Math.random() * selectedSided) / 2) + 1;
-    setResourceRandomNumber(resourceRandom);
+    const rarityDieRoll = Math.floor((Math.random() * selectedSided) / 2) + 1;
+    setRarityDieRoll(rarityDieRoll);
   };
 
   const handleActionClick = (resourceType) => {
@@ -66,24 +65,59 @@ const App = () => {
 
     setBonusTotal(total);
   };
-  const diePower = selectedSided / 2;
+
+  const diePower = selectedSided / 2; // This sets the max value when the die is rolled
 
   const orchidWinner = Math.ceil(diePower + (diePower * bonusTotal) / 100);
 
-  const slotReward = (
-    (resourceRandomNumber * randomNumber) / 100 +
-    (resourceRandomNumber * bonusTotal) / 100
+  const fuelMod = 0.25;
+  const petalMod = 1;
+  const foodMod = 0.5;
+
+  const foodSlotReward = (
+    ((randomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    foodMod
+  ).toFixed(2);
+  const petalSlotReward = (
+    ((randomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    petalMod
+  ).toFixed(2);
+  const fuelSlotReward = (
+    ((randomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    fuelMod
+  ).toFixed(2);
+  const foodBonusReward = (
+    ((bonusRandomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    foodMod
+  ).toFixed(2);
+  const petalBonusReward = (
+    ((bonusRandomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    petalMod
+  ).toFixed(2);
+  const fuelBonusReward = (
+    ((bonusRandomNumber * rarityDieRoll) / 100 +
+      (rarityDieRoll * bonusTotal) / 100) *
+    fuelMod
   ).toFixed(2);
 
   return (
     <div className='flex'>
       <div className='w-1/2 bg-gray-800'>
-        <div className='text-white'>
-          https://github.com/stargelnaz/oh-logic.git
+        {/* ---------------------------------------------------------------------------------RESOURCE MODIFIERS */}
+        <div id='Resource Modifiers' className='flex flex-wrap text-white'>
+          <div className='p-2 border border-white'>Fuel Mod: {fuelMod}</div>
+          <div className='p-2 border border-white'>Petal Mod: {petalMod}</div>
+          <div className='p-2 border border-white'>Food Mod: {foodMod} </div>
         </div>
         <div className='flex flex-col justify-center h-screen'>
           <div className='text-white text-center'>
             <div className='py-4'>
+              {/* ---------------------------------------------------------------------------------WHAT ACTION */}
               <h2 className='text-2xl font-bold'>WHAT ACTION?</h2>
               <div className='flex flex-row justify-center'>
                 {teamData.action.map((actionItem, index) => (
@@ -224,7 +258,7 @@ const App = () => {
                   <button
                     className={`mx-2 py-2 px-4 rounded ${
                       selectedSubcategories['coordination'] === 0
-                        ? 'bg-blue-500 text-white'
+                        ? 'bg-blue-500 text-black'
                         : 'bg-gray-500 text-gray-200'
                     }`}
                     onClick={() => handleSubcategoryClick('coordination', 0)}
@@ -233,10 +267,11 @@ const App = () => {
                   </button>
                 </div>
               </div>
-              <p className='mt-4 text-lg'>Total bonus is {bonusTotal}%</p>
+              <p className='mt-4 text-3xl'>Total bonus is {bonusTotal}%</p>
             </div>
 
             <div className='flex flex-row'>
+              {/* ----------------------------------------------------------------------------------RNG */}
               {/* MAIN ROLL */}
               <button
                 className='py-2 px-4 bg-blue-500 text-white rounded'
@@ -245,11 +280,21 @@ const App = () => {
                 ROLL IT!
               </button>
               <div className='py-4 w-6/12'>
-                <h2 className='text-2xl font-bold'>MAIN ROLL</h2>
+                <h2 className='text-2xl'>MAIN ROLL</h2>
                 <div className='flex flex-col items-center'>
                   {randomNumber !== null && (
                     <div className='mt-4 text-3xl font-bold text-white'>
                       &nbsp;{randomNumber}&nbsp;
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className='py-4 w-6/12'>
+                <h2 className='text-2xl'>RARITY DIE ROLL</h2>
+                <div className='flex flex-col items-center'>
+                  {rarityDieRoll !== null && (
+                    <div className='mt-4 text-3xl font-bold text-white'>
+                      &nbsp;{rarityDieRoll}&nbsp;
                     </div>
                   )}
                 </div>
@@ -279,13 +324,13 @@ const App = () => {
           </div>
         </div>
       </div>
-      <div id='right-side' className='w-2/3 flex flex-col bg-gray-200'>
+      <div id='right-side' className='w-1/2 flex flex-col bg-gray-200'>
         {/* --------------------------------------------------------------------------------SLOT RESULT */}{' '}
         <div
-          id='explanations'
+          id='slot result'
           className='flex flex-row border border-white bg-green-200'
         >
-          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-200'>
+          <div className='flex flex-col w-1/3 m-2 p-2 bg-green-200'>
             <div className='flex flex-col font-bold text-2xl'>Slot Result</div>
             <div>
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
@@ -294,53 +339,112 @@ const App = () => {
               (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
             </div>
           </div>
-          <div className='flex flex-col m-2 p-2 bg-green-200'>
-            <div className='bg-yellow-800'>WHAT DID YOU WIN?</div>
+          <div className='flex flex-col w-2/3 m-2 p-2 bg-green-200'>
+            <div className='bg-yellow-800 text-center text-white'>
+              WHAT DID YOU WIN?
+            </div>
             <div>
               <div>
-                {/* <table className='mx-auto border border-collapse'> */}
-                <table>
+                <table className='w-full'>
                   <tr>
-                    <th className='border border-gray-400 p-2 text-center'>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
                       Main Roll
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Die Power
-                      <br /> d{selectedSided} &divide; 2
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Die Power <br /> d{selectedSided} ÷ 2
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
+
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
                       Team Bonus
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Resource
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Food
+                    </th>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Petal
+                    </th>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Fuel
                     </th>
                   </tr>
                   <tr>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {randomNumber}%
+                    <td
+                      id='Main Roll'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                      style={{
+                        background: randomNumber ? 'inherit' : 'red',
+                        color: randomNumber ? 'inherit' : 'white'
+                      }}
+                    >
+                      {randomNumber ? `${randomNumber}%` : 'Waiting on roll...'}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {resourceRandomNumber}
+
+                    <td
+                      id='Die Power'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                      style={{
+                        background: diePower ? 'inherit' : 'red',
+                        color: diePower ? 'inherit' : 'white'
+                      }}
+                    >
+                      {!diePower
+                        ? 'Waiting on rarity...'
+                        : !rarityDieRoll
+                        ? 'Waiting on roll...'
+                        : `${rarityDieRoll}`}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {bonusTotal}%
+
+                    <td
+                      id='Team Bonus'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                      style={{
+                        background: bonusTotal ? 'inherit' : 'red',
+                        color: bonusTotal ? 'inherit' : 'white'
+                      }}
+                    >
+                      {bonusTotal ? bonusTotal : 'No bonus'}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {selectedAction}
+
+                    <td
+                      id='Food'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {foodSlotReward &&
+                      (selectedAction === 'FOOD' || selectedAction === 'FUEL')
+                        ? foodSlotReward
+                        : ''}
+                    </td>
+
+                    <td
+                      id='Petal'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {petalSlotReward &&
+                      (selectedAction === 'PETAL' || selectedAction === 'FUEL')
+                        ? petalSlotReward
+                        : ''}
+                    </td>
+
+                    <td
+                      id='Fuel Slot Reward'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {fuelSlotReward && selectedAction === 'FUEL'
+                        ? fuelSlotReward
+                        : ''}
                     </td>
                   </tr>
                 </table>
               </div>
             </div>
-            <div className='bg-orange-500'>Slot Reward: {slotReward} UNITS</div>
           </div>
         </div>{' '}
-        {/* --------------------------------------------------------------------------------BONUS RESULT */}{' '}
+        {/* --------------------------------------------------------------------------------BONUS RESULT */}
         <div
-          id='explanations'
+          id='Bonus Result'
           className='flex flex-row border border-white bg-green-300'
         >
-          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-300'>
+          <div className='flex flex-col w-1/3 m-2 p-2 bg-green-300'>
             <div className='flex flex-col font-bold text-2xl'>Bonus Result</div>
             <div>
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
@@ -348,85 +452,128 @@ const App = () => {
             <div>If MAIN ROLL &gt; 75 then WINNER!</div>
             <div>
               {' '}
-              (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
+              (Bonus Roll &times; Die Power) + (Die Power &times; Team Bonus)
             </div>
           </div>
-          <div className='flex flex-col m-2 p-2 bg-green-300'>
-            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
+          <div className='flex flex-col w-2/3 m-2 p-2 bg-green-300'>
+            <div className='bg-yellow-800 text-center text-white'>
+              DID YOU WIN? (Main Roll > 75?)
+            </div>
             <div>
               <div>
                 {/* <table className='mx-auto border border-collapse'> */}
-                <table>
+                <table className='w-full'>
                   <tr>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Is Main Roll &gt;75?
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Bonus Roll
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      BONUS ROLL
-                    </th>
-                    <th className='border border-gray-400 p-2 text-center'>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
                       Die Power
                       <br /> d{selectedSided} &divide; 2
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
                       Team Bonus
                     </th>
-                    <th className='border border-gray-400 p-2 text-center'>
-                      Resource
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Food
+                    </th>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Petal
+                    </th>
+                    <th className='w-1/6 border border-gray-400 p-2 text-center'>
+                      Fuel
                     </th>
                   </tr>
                   <tr>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {randomNumber === null ||
-                      randomNumber === 0 ||
-                      randomNumber === undefined
-                        ? 'Waiting'
-                        : randomNumber >= 75
-                        ? 'YES'
-                        : 'NO'}{' '}
+                    <td
+                      id='Bonus Roll'
+                      className='border border-gray-400 p-2 text-center'
+                      style={{
+                        background: bonusRandomNumber ? 'inherit' : 'red',
+                        color: bonusRandomNumber ? 'inherit' : 'white'
+                      }}
+                    >
+                      {bonusRandomNumber
+                        ? bonusRandomNumber
+                        : 'Waiting on roll'}
                     </td>
 
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {bonusRandomNumber}%
+                    <td
+                      id='Die Power'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                      style={{
+                        background: diePower ? 'inherit' : 'red',
+                        color: diePower ? 'inherit' : 'white'
+                      }}
+                    >
+                      {!diePower
+                        ? 'Waiting on rarity...'
+                        : !rarityDieRoll
+                        ? 'Waiting on roll...'
+                        : `${rarityDieRoll}`}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {resourceRandomNumber}
+                    <td
+                      id='Team Bonus'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                      style={{
+                        background: bonusTotal ? 'inherit' : 'red',
+                        color: bonusTotal ? 'inherit' : 'white'
+                      }}
+                    >
+                      {bonusTotal ? bonusTotal : 'No bonus'}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {bonusTotal}%
+                    <td
+                      id='Food'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {foodBonusReward &&
+                      (selectedAction === 'FOOD' || selectedAction === 'FUEL')
+                        ? foodBonusReward
+                        : ''}
                     </td>
-                    <td className='border border-gray-400 p-2 text-center'>
-                      {selectedBonusResourceAction}
+
+                    <td
+                      id='Petal'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {petalBonusReward &&
+                      (selectedAction === 'PETAL' || selectedAction === 'FUEL')
+                        ? petalBonusReward
+                        : ''}
+                    </td>
+
+                    <td
+                      id='Fuel Slot Reward'
+                      className='w-1/6 border border-gray-400 p-2 text-center'
+                    >
+                      {fuelBonusReward && selectedAction === 'FUEL'
+                        ? fuelBonusReward
+                        : ''}
                     </td>
                   </tr>
                 </table>
               </div>
             </div>
-            <div
-              className={`${
-                randomNumber === 0 ||
-                randomNumber === null ||
-                randomNumber === undefined
-                  ? ''
-                  : randomNumber < 75
-                  ? ''
-                  : 'bg-orange-500'
-              }`}
-            >
-              {randomNumber === 0 ||
-              randomNumber === null ||
-              randomNumber === undefined
-                ? 'Waiting for input...'
-                : randomNumber < 75
-                ? 'Nope'
-                : `Bonus Reward: ${slotReward} UNITS`}
-            </div>
+
+            {randomNumber === 0 ||
+            randomNumber === null ||
+            randomNumber === undefined ? (
+              <span className='bg-yellow-800 text-center text-white'>
+                Waiting for input...
+              </span>
+            ) : randomNumber < 75 ? (
+              <span className='bg-yellow-800 text-center text-white'>NOPE</span>
+            ) : (
+              <span className='opacity-100 bg-orange-500 text-center text-white'>
+                WINNER
+              </span>
+            )}
           </div>
         </div>
         {/* --------------------------------------------------------------------------------SWAPLING RESULT */}{' '}
         <div className='flex flex-row border border-white bg-green-400'>
-          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-400'>
-            <div className='flex flex-col font-bold text-2xl'>
+          <div className='flex flex-col w-1/2 m-2 p-2 w-1/3 bg-green-400'>
+            <div className='flex flex-col font-bold  text-2xl'>
               Swapling Orchid Result
             </div>
             <div>
@@ -442,8 +589,10 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col m-2 p-2 bg-green-400'>
-            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
+          <div className='flex flex-col m-2 p-2 w-2/3 bg-green-400'>
+            <div className='bg-yellow-800 text-center text-white'>
+              DID YOU WIN?
+            </div>
             <div>
               <div>
                 {/* <table className='mx-auto border border-collapse'> */}
@@ -479,16 +628,18 @@ const App = () => {
             </div>
             <div>
               {diePower > orchidRandomNumber ? (
-                <div className='bg-orange-500 text-center'>WINNER!</div>
+                <div className='opacity-100 bg-orange-500 text-center text-white'>
+                  WINNER!
+                </div>
               ) : (
-                <div>Nope!</div>
+                <div className='bg-yellow-800 text-center text-white'>NOPE</div>
               )}
             </div>
           </div>
         </div>{' '}
         {/* --------------------------------------------------------------------------------TICKET RESULT */}{' '}
         <div className='flex flex-row border border-white bg-green-500'>
-          <div className='flex flex-col w-1/2 m-2 p-2 bg-green-500'>
+          <div className='flex flex-col w-1/3 m-2 p-2 bg-green-500'>
             <div className='flex flex-col font-bold text-2xl'>
               Hunt Ticket Result
             </div>
@@ -500,7 +651,9 @@ const App = () => {
             </div>
           </div>
           <div className='flex flex-col m-2 p-2 bg-green-500'>
-            <div className='bg-yellow-800 text-center'>DID YOU WIN?</div>
+            <div className='bg-yellow-800 text-center text-white'>
+              DID YOU WIN?
+            </div>
             <div>
               <div>
                 {/* <table className='mx-auto border border-collapse'> */}
@@ -524,15 +677,18 @@ const App = () => {
             </div>
             <div>
               {randomNumber > 95 ? (
-                <div className='bg-orange-500 text-center'>WINNER!</div>
+                <div className='opacity-100 bg-orange-500 text-center text-white'>
+                  WINNER!
+                </div>
               ) : (
-                <div>Nope!</div>
+                <div className='bg-yellow-800 text-center text-white'>NOPE</div>
               )}
             </div>
           </div>
         </div>
         {/* --------------------------------------------------------------------------------VARIABLES */}{' '}
         <div className='flex flex-col m-5 p-6 border border-blue-500'>
+          <div>https://github.com/stargelnaz/oh-logic.git</div>
           <div>selectedAction: {selectedAction}</div>
           <div>
             selectedRarity: {selectedRarity} → selectedSided: {selectedSided} →
