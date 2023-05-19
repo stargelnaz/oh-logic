@@ -47,5 +47,6 @@
       { "label": "Rival Vehicle -25", "value": -25 }
     ],
     "coordination": [{ "label": "All Matching Team +10", "value": 10 }]
-  }
+  },
+  "modifiers": { "fuelMod": 0.25, "petalMod": 1, "foodMod": 0.5 }
 }

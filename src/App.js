@@ -450,7 +450,7 @@ const App = () => {
             <div>
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
             </div>
-            <div>If MAIN ROLL &gt; 75 then WINNER!</div>
+            <div>If MAIN ROLL &gt; 75 then RANDOM resource awarded</div>
             <div>
               {' '}
               ( (Bonus Roll &times; Die Power) <br />+ (Die Power &times; Team
