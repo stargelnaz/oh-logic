@@ -336,7 +336,8 @@ const App = () => {
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
             </div>
             <div>
-              (Main Roll &times; Die Power) + (Die Power &times; Team Bonus)
+              ( (Main Roll &times; Die Power) + (Die Power &times; Team Bonus) )
+              &times; Resource Modifier
             </div>
           </div>
           <div className='flex flex-col w-2/3 m-2 p-2 bg-green-200'>
@@ -452,7 +453,9 @@ const App = () => {
             <div>If MAIN ROLL &gt; 75 then WINNER!</div>
             <div>
               {' '}
-              (Bonus Roll &times; Die Power) + (Die Power &times; Team Bonus)
+              ( (Bonus Roll &times; Die Power) <br />+ (Die Power &times; Team
+              Bonus) )
+              <br /> &times; Resource Modifier
             </div>
           </div>
           <div className='flex flex-col w-2/3 m-2 p-2 bg-green-300'>
