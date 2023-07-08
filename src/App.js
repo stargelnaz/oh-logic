@@ -602,19 +602,16 @@ const App = () => {
         <div className='flex flex-row border border-white bg-green-400'>
           <div className='flex flex-col w-1/2 m-2 p-2 w-1/3 bg-green-400'>
             <div className='flex flex-col font-bold  text-2xl'>
-              Swapling Orchid Result (Future)
+              Swapling Orchid Result
             </div>
             <div>
-              <span className='font-bold'>HOW IS IT CALCULATED?</span>
+              <span className='font-bold'>(FUTURE) HOW IS IT CALCULATED?</span>
             </div>
             <div>
               <div>
                 The ORCHID ROLL is generated independently of any other roll.
               </div>
-              <div>
-                The gamer's chances are based soley on rarity (0.5% common - 5.0
-                % ghost)
-              </div>
+              <div>The gamer's chances are based soley on rarity</div>
             </div>
           </div>
           <div className='flex flex-col m-2 p-2 w-2/3 bg-green-400'>
