@@ -109,16 +109,25 @@ const App = () => {
     <div className='flex'>
       <div className='w-1/2 bg-gray-800'>
         {/* ---------------------------------------------------------------------------------RESOURCE MODIFIERS */}
-        <div id='Resource Modifiers' className='flex flex-wrap text-white'>
-          <div className='p-2 border border-white'>Fuel Mod: {fuelMod}</div>
-          <div className='p-2 border border-white'>Petal Mod: {petalMod}</div>
-          <div className='p-2 border border-white'>Food Mod: {foodMod} </div>
+        <div id='Resource Modifiers' className='flex flex-wrap text-white '>
+          <div className='p-2 border border-white text-xs'>
+            Fuel Mod: {fuelMod}
+          </div>
+          <div className='p-2 border border-white text-xs'>
+            Petal Mod: {petalMod}
+          </div>
+          <div className='p-2 border border-white text-xs'>
+            Food Mod: {foodMod}{' '}
+          </div>
         </div>
         <div className='flex flex-col justify-center h-screen'>
           <div className='text-white text-center'>
             <div className='py-4'>
               {/* ---------------------------------------------------------------------------------WHAT ACTION */}
-              <h2 className='text-2xl font-bold'>WHAT ACTION?</h2>
+              <p className='text-2xl font-bold'>
+                REQUIREMENT 1: WHAT NFT WILL BE USED FOR THE ACTION?
+              </p>
+              <p>Must select one. Click one for more information.</p>
               <div className='flex flex-row justify-center'>
                 {teamData.action.map((actionItem, index) => (
                   <button
@@ -151,7 +160,11 @@ const App = () => {
               </p>
             </div>
             <div className='py-4'>
-              <h2 className='text-2xl font-bold'>WHAT RARITY?</h2>
+              <p className='text-2xl font-bold'>
+                REQUIREMENT 2: WHAT RARITY IS THE NFT THAT WILL BE USED?
+              </p>
+              Must choose one (although in the future, it could be possible to
+              choose a card with no rarity).
               <div className='flex flex-row justify-center'>
                 {teamData.dice.map((diceItem, index) => (
                   <button
@@ -179,12 +192,18 @@ const App = () => {
               </p>
             </div>
             <div className='py-4'>
-              <h2 id='what-bonus' className='text-2xl font-bold'>
-                WHAT BONUS?
-              </h2>
+              <p id='what-bonus' className='text-2xl font-bold'>
+                REQUIREMENT 3: CALCULATE THE BONUS
+              </p>
+              <p>
+                Because there will always a an active Land, at least the TERRAIN
+                bonus will apply.
+              </p>
               <div className='grid gap-4 grid-cols-1'>
                 <div>
-                  <h3>Terrain</h3>
+                  <h3>
+                    Terrain (The chosen NFT in relation to the active land)
+                  </h3>
                   {teamData.bonus.terrain.map((bonusItem, index) => (
                     <button
                       key={index}
@@ -202,7 +221,10 @@ const App = () => {
                   ))}
                 </div>
                 <div>
-                  <h3>Partner</h3>
+                  <h3>
+                    Partner (The relationship between MEMBER and BEAST, if there
+                    is one)
+                  </h3>
                   {teamData.bonus.partner.map((bonusItem, index) => (
                     <button
                       key={index}
@@ -220,7 +242,10 @@ const App = () => {
                   ))}
                 </div>
                 <div>
-                  <h3>Vehicle</h3>
+                  <h3>
+                    Vehicle (The relationship between VEHICLE and LAND, if there
+                    is one)
+                  </h3>
                   {teamData.bonus.vehicle.map((bonusItem, index) => (
                     <button
                       key={index}
@@ -238,7 +263,9 @@ const App = () => {
                   ))}
                 </div>
                 <div>
-                  <h3>Coordination</h3>
+                  <h3>
+                    Coordination (If all three NFT match, regardless of LAND)
+                  </h3>
                   {teamData.bonus.coordination.map((bonusItem, index) => (
                     <button
                       key={index}

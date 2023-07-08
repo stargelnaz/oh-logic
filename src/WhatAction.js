@@ -27,7 +27,7 @@ const WhatAction = ({ selectedAction, handleActionClick }) => {
   console.log(resourceType);
   return (
     <div className='flex flex-col items-center justify-center bg-white border border-black p-4'>
-      <div className='text-3xl'>WHAT ACTION?</div>
+      <div className='text-2xl'>WHAT ACTION?</div>
       <div>
         <button
           style={{
