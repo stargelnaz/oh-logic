@@ -26,7 +26,7 @@ const App = () => {
     const random = Math.floor(Math.random() * 100) + 1;
     setRandomNumber(random);
 
-    const orchidRandom = Math.floor(Math.random() * 100) + 1;
+    const orchidRandom = Math.floor(Math.random() * 200) + 1;
     setOrchidRandomNumber(orchidRandom);
 
     const bonusRandomNumber = Math.floor(Math.random() * 100) + 1;
@@ -122,17 +122,18 @@ const App = () => {
         </div>
         <div className='flex flex-col justify-center h-screen'>
           <div className='text-white text-center'>
-            <div className='py-4'>
+            <div>
               {/* ---------------------------------------------------------------------------------WHAT ACTION */}
               <p className='text-2xl font-bold'>
-                REQUIREMENT 1: WHAT NFT WILL BE USED FOR THE ACTION?
+                REQUIREMENT 1: WHAT IS THE PRINCIPAL NFT TO BE USED FOR THE
+                ACTION?
               </p>
-              <p>Must select one. Click one for more information.</p>
+
               <div className='flex flex-row justify-center'>
                 {teamData.action.map((actionItem, index) => (
                   <button
                     key={index}
-                    className={`mx-2 py-2 px-4 rounded ${
+                    className={`mx-2 py-1 px-4 rounded ${
                       selectedAction === actionItem.resourceType
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-500 text-gray-200'
@@ -143,7 +144,7 @@ const App = () => {
                   </button>
                 ))}
               </div>
-              <p className='mt-4 text-lg'>
+              <p className='text-lg'>
                 {selectedAction
                   ? `${
                       teamData.action.find(
@@ -156,20 +157,19 @@ const App = () => {
                           actionItem.resourceType === selectedAction
                       ).actionType
                     }s looking for ${selectedAction}`
-                  : 'Choose an Action for more information'}
+                  : 'Must choose one'}
               </p>
             </div>
-            <div className='py-4'>
+            <div className='py-2'>
               <p className='text-2xl font-bold'>
-                REQUIREMENT 2: WHAT RARITY IS THE NFT THAT WILL BE USED?
+                REQUIREMENT 2: WHAT RARITY IS THE PRINCIPAL NFT?
               </p>
-              Must choose one (although in the future, it could be possible to
-              choose a card with no rarity).
+
               <div className='flex flex-row justify-center'>
                 {teamData.dice.map((diceItem, index) => (
                   <button
                     key={index}
-                    className={`mx-2 py-2 px-4 rounded ${
+                    className={`mx-2 py-1 px-4 rounded ${
                       selectedRarity === diceItem.rarity
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-500 text-gray-200'
@@ -191,7 +191,7 @@ const App = () => {
                 | "Die Power" is a roll of that die divided in half
               </p>
             </div>
-            <div className='py-4'>
+            <div className='py-2'>
               <p id='what-bonus' className='text-2xl font-bold'>
                 REQUIREMENT 3: CALCULATE THE BONUS
               </p>
@@ -207,7 +207,7 @@ const App = () => {
                   {teamData.bonus.terrain.map((bonusItem, index) => (
                     <button
                       key={index}
-                      className={`mx-2 py-2 px-4 rounded w-200 ${
+                      className={`mx-2 py-1 px-4 rounded w-200 ${
                         selectedSubcategories['terrain'] === bonusItem.value
                           ? 'bg-blue-500 text-white'
                           : 'bg-gray-500 text-gray-200'
@@ -222,13 +222,13 @@ const App = () => {
                 </div>
                 <div>
                   <h3>
-                    Partner (The relationship between MEMBER and BEAST, if there
+                    Partner (The relationship between GUIDE and BEAST, if there
                     is one)
                   </h3>
                   {teamData.bonus.partner.map((bonusItem, index) => (
                     <button
                       key={index}
-                      className={`mx-2 py-2 px-4 rounded w-200 ${
+                      className={`mx-2 py-1 px-4 rounded w-200 ${
                         selectedSubcategories['partner'] === bonusItem.value
                           ? 'bg-blue-500 text-white'
                           : 'bg-gray-500 text-gray-200'
@@ -249,7 +249,7 @@ const App = () => {
                   {teamData.bonus.vehicle.map((bonusItem, index) => (
                     <button
                       key={index}
-                      className={`mx-2 py-2 px-4 rounded w-200 ${
+                      className={`mx-2 py-1 px-4 rounded w-200 ${
                         selectedSubcategories['vehicle'] === bonusItem.value
                           ? 'bg-blue-500 text-white'
                           : 'bg-gray-500 text-gray-200'
@@ -269,7 +269,7 @@ const App = () => {
                   {teamData.bonus.coordination.map((bonusItem, index) => (
                     <button
                       key={index}
-                      className={`mx-2 py-2 px-4 rounded ${
+                      className={`mx-2 py-1 px-4 rounded ${
                         selectedSubcategories['coordination'] ===
                         bonusItem.value
                           ? 'bg-blue-500 text-white'
@@ -283,7 +283,7 @@ const App = () => {
                     </button>
                   ))}
                   <button
-                    className={`mx-2 py-2 px-4 rounded ${
+                    className={`mx-2 py-1 px-4 rounded ${
                       selectedSubcategories['coordination'] === 0
                         ? 'bg-blue-500 text-black'
                         : 'bg-gray-500 text-gray-200'
@@ -301,7 +301,7 @@ const App = () => {
               {/* ----------------------------------------------------------------------------------RNG */}
               {/* MAIN ROLL */}
               <button
-                className='py-2 px-4 bg-blue-500 text-white rounded'
+                className='py-1 px-4 bg-blue-500 text-white rounded'
                 onClick={handleRollClick}
               >
                 ROLL IT!
@@ -368,9 +368,7 @@ const App = () => {
             </div>
           </div>
           <div className='flex flex-col w-2/3 m-2 p-2 bg-green-200'>
-            <div className='bg-yellow-800 text-center text-white'>
-              WHAT DID YOU WIN?
-            </div>
+            <div className='bg-yellow-800 text-center text-white'>?</div>
             <div>
               <div>
                 <table className='w-full'>
@@ -404,7 +402,7 @@ const App = () => {
                         color: randomNumber ? 'inherit' : 'white'
                       }}
                     >
-                      {randomNumber ? `${randomNumber}%` : 'Waiting on roll...'}
+                      {randomNumber ? `${randomNumber}` : 'Waiting on roll...'}
                     </td>
 
                     <td
@@ -604,7 +602,7 @@ const App = () => {
         <div className='flex flex-row border border-white bg-green-400'>
           <div className='flex flex-col w-1/2 m-2 p-2 w-1/3 bg-green-400'>
             <div className='flex flex-col font-bold  text-2xl'>
-              Swapling Orchid Result
+              Swapling Orchid Result (Future)
             </div>
             <div>
               <span className='font-bold'>HOW IS IT CALCULATED?</span>
@@ -625,7 +623,6 @@ const App = () => {
             </div>
             <div>
               <div>
-                {/* <table className='mx-auto border border-collapse'> */}
                 <table>
                   <tr>
                     <th className='border border-gray-400 p-2 text-center'>

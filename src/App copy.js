@@ -87,7 +87,7 @@ function App() {
       <div className='flex flex-col items-center justify-center p-b m-4 bg-white border border-black p-4'>
         <h1 className='text-4xl bg-white'>MAIN ROLL FOR PAYOUT</h1>
         <button
-          className='px-4 py-2 bg-blue-500 text-white rounded-md mb-4'
+          className='px-4 py-1 bg-blue-500 text-white rounded-md mb-4'
           onClick={rollDice}
         >
           Roll the Dice
