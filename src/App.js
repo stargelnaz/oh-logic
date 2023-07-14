@@ -629,6 +629,10 @@ const App = () => {
                     <th className='border border-gray-400 p-2 text-center'>
                       Rarity Die &divide; 2
                     </th>
+                    <th>
+                      NOTE: Because we aren't using floats in the code, the roll
+                      is 1-200, so effectively the odds are die/4
+                    </th>
                   </tr>
                   <tr>
                     <td className='border border-gray-400 p-2 text-center'>
@@ -645,10 +649,6 @@ const App = () => {
                       selectedSided === undefined
                         ? 'Waiting'
                         : diePower}
-                    </td>
-                    <td>
-                      NOTE: Because we aren't using floats in the code, the roll
-                      is 1-200, so effectively the odds are die/4
                     </td>
                   </tr>
                 </table>
