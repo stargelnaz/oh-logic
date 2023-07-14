@@ -646,17 +646,29 @@ const App = () => {
                         ? 'Waiting'
                         : diePower}
                     </td>
+                    <td>
+                      NOTE: Because we aren't using floats in the code, the roll
+                      is 1-200, so effectively the odds are die/4
+                    </td>
                   </tr>
                 </table>
               </div>
             </div>
             <div>
-              {diePower > orchidRandomNumber ? (
-                <div className='opacity-100 bg-orange-500 text-center text-white'>
-                  WINNER!
-                </div>
+              {orchidRandomNumber ? (
+                diePower > orchidRandomNumber ? (
+                  <div className='opacity-100 bg-orange-500 text-center text-white'>
+                    WINNER!
+                  </div>
+                ) : (
+                  <div className='bg-yellow-800 text-center text-white'>
+                    NOPE
+                  </div>
+                )
               ) : (
-                <div className='bg-yellow-800 text-center text-white'>NOPE</div>
+                <div className='opacity-100 bg-yellow-800 text-center text-white'>
+                  WAITING ON ROLL
+                </div>
               )}
             </div>
           </div>
