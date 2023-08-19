@@ -12,7 +12,7 @@ const buttonStyle = {
 
 const bonuses = {
   terrain: [
-    { label: 'Matching Land +20', value: 20 },
+    { label: 'Matching Land +35', value: 35 },
     { label: 'Affiliated Land +10', value: 10 },
     { label: 'Awkward Land -25', value: -25 },
     { label: 'Rival Land -50', value: -50 }
